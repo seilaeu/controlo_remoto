@@ -1,0 +1,111 @@
+Estabelecer ligação entre o meu computador e o computador da minha mãe de modo a poder ajudá-la remotamente
+===========================================================================================================
+
+Abrir porta no meu router
+=========================
+
+Introduzir "192.168.1.254" no navegador de Internet.
+
+
+Ferramentas => Partilha de Jogos e Aplicações => Configurar Novo Jogo ou Aplicação
+
+Atribuir um nome: ControloRemotoReverso, por exemplo
+Escolher Entrada Manual de Mapeamento de Portas e clicar em Avançar
+
+Colocar Qualquer em Protocolo, XXXXX em "Intervalo de portas" e em "Converter em...", Qualquer em Protocolo de trigger, deixar vazio o campo "Porta de Transicção" e clicar em Adicionar
+
+XXXXX, sempre colocar uma porta acima de 1024, preferencialmente com 5 digitos.
+
+Atribuir Jogo ou Aplicação a um Dispositivo de Rede Local 
+
+Clicar em Rede Doméstica para saber qual o dispositivo em que estamos.
+Deve-se confrontar o ip do dispositivo activo no router com o ip do comando "ifconfig | grep inet| grep 192"
+
+Escolher "ControloRemotoReverso", selecionar o dispositivo correcto e clicar na Coluna "Log" e em Adicionar
+
+
+Abrir porta XXXXX na firewall do computador:
+$ sudo iptables -A TCP -p tcp --dport XXXXX -j ACCEPT
+
+Criar uma conta para a minha mãe:
+
+$ sudo useradd -m mãe && passwd mãe
+
+Gerar um par de chaves pública/privada, com frase-passe.
+
+$ su - mãe
+
+$ ssh-keygen -t rsa -b 4096
+
+$ mkdir ~/.ssh && cat mãe_rsa.pub >> ~/.ssh/authorized_keys && chmod 0600 ~/.ssh/authorized_keys
+
+Transferir a chave privada da kika_rsa para uma USB. Não deixá-la no meu computador. 
+Em nenhuma circuntância deve ser enviada por correio electrónico ou através de rede. 
+
+
+No computador da minha mãe, na conta da minha mãe:
+
+$ mv /media/pendrive/mãe-dist_rsa ~/.ssh/ && chmod 0400 ~/.ssh/mãe-dist_rsa
+
+
+Definir palavra passe do VNC
+
+$ vncpasswd
+
+
+No meu computador, na minha conta: 
+
+
+$ sudo systemctl start sshd.service
+$ sudo systemctl start sshd.socket
+
+
+Verificar se a porta XXXXX está aberta, em "http://ping.eu/port-chk/" por exemplo.
+
+
+No computador da minha mãe, na conta da minha mãe:
+
+
+$ x0vncserver -display :0 -passwordfile ~/.vnc/passwd
+$ ssh -vv -R 55900:localhost:5900 -i ~/.ssh/mãe-dist_rsa -p XXXXX mãe@meu-ip-público
+
+
+No meu computador, na conta da minha mãe:
+
+$ vncviewer -x11cursor 127.0.0.1:55900
+
+
+
+######################################
+#
+# -R cria um tunel SSH reverso 
+#
+# 55900 é porta que a minha mãe vai abrir no computador dela quando executar o comando.
+#
+# 5900 é a porta onde o servidor TightVNC vai estar à escuta no meu computador.
+#
+# XXXXX é a porta onde o serviço sshd estará à escuta no meu computador.
+#
+# Não há necessidade de um servidor SSH no computador da minha mãe.
+#
+# slackware01-ip-address is your own IP address; it might be easier
+# for your mother if you just set up dynamic DNS if your public IP
+# address is not static
+#
+# mãe é o nome da conta da minha mãe no computador dela e no meu.
+#
+#
+#####################################
+
+ 
+
+
+
+Tenho de testar isto...
+=======================
+
+No computador da mãe:
+$ ssh -R YYYYY:localhost:XXXXX mãe@meu-ip-publico
+
+No meu computador:
+$ ssh localhost -p YYYYY
