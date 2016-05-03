@@ -4,10 +4,9 @@ Configuração:
 
 No computador da minha mãe, numa conta minha:
 
-É necessário saber o endereço privado do computador dela, numa determinada distribuição:
+É necessário saber o endereço privado do computador dela:
 
-$ ifconfig |grep inet
-
+$ ifconfig |grep inet |grep 192
 
 Configurar o router dela:
 
@@ -31,14 +30,13 @@ $ ssh-keygen -t rsa -b 4096
 
 $ mkdir ~/.ssh && cat filho_rsa.pub >> ~/.ssh/authorized_keys && chmod 0600 ~/.ssh/authorized_keys
 
-Transferir a chave privada do meu utilizador para uma USB ou CD. 
-Não deixá-la no computador da minha mãe. 
+Transferir a chave privada do meu utilizador para uma USB. Não deixá-la no computador da minha mãe. 
 Em nenhuma circuntância deve ser enviada por correio electrónico ou através de rede. 
-Levar a USB para casa minha casa. 
-Transferir o ficheiro filho_rsa da USB para ~/.ssh. 
+
+
 Tentar entrar na conta filho no meu computador da minha mãe a partir do meu computador, usando a chave privada:
 
-Ainda no computador da minha mãe:
+No computador da minha mãe:
 
 # Criar um palavra-passe para o programa VNC
 
@@ -52,8 +50,7 @@ $ mv /media/pendrive/filho_rsa ~/.ssh/ && chmod 0400 ~/.ssh/filho_rsa
 Estabelecer ligação entre os dois computadores através de túnel directo SSH:
 
 
-No computador da minha mãe, na minha conta: 
-
+No computador da minha mãe: 
 
 Arch 
 -----
@@ -71,7 +68,7 @@ Verificar se a porta xx.xxx está aberta.
 
 No meu computador:
 
-$ ssh -vv -i ~/.ssh/filho-arch_rsa -p xx.xxx filho@ipmãe
+$ ssh -vv -i ~/.ssh/filho-arch_rsa -p xx.xxx filho@ip_público_da_mãe
 
 $ ssh -vv -L 55900:localhost:5900 -i ~/.ssh/filho-arch_rsa -p xx.xxx jribeiro@ipmãe
 
