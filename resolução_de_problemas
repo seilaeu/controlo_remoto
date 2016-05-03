@@ -1,4 +1,5 @@
 Troubleshooting
+(Fonte: https://help.ubuntu.com/community/SSH/OpenSSH/Keys)
 Encrypted Home Directory
 
 If you have an encrypted home directory, SSH cannot access your authorized_keys file because it is inside your encrypted home directory and won't be available until after you are authenticated. Therefore, SSH will default to password authentication.
