@@ -1,0 +1,90 @@
+Estabelecer ligação entre o meu computador e o computador da minha mãe de modo a poder ajudá-la remotamente.
+
+Configuração:
+
+No computador da minha mãe, numa conta minha:
+
+É necessário saber o endereço privado do computador dela, numa determinada distribuição:
+
+$ ifconfig |grep inet
+
+
+Configurar o router dela:
+
+O endereço para configurar o router é 192.168.1.1
+
+Reencaminhar o tráfego de uma porta aleatória do router para a porta 22 do computador dela.
+
+É bom escolher um número de porta acima de 1024.
+
+Desactivar a firewall ou então pô-la compatível com o router
+
+Criar uma conta para mim:
+
+$ sudo useradd -m filho && passwd filho
+
+Gerar um par de chaves pública/privada, com frase-passe.
+
+$ su - filho
+
+$ ssh-keygen -t rsa -b 4096
+
+$ mkdir ~/.ssh && cat filho_rsa.pub >> ~/.ssh/authorized_keys && chmod 0600 ~/.ssh/authorized_keys
+
+Transferir a chave privada do meu utilizador para uma USB ou CD. 
+Não deixá-la no computador da minha mãe. 
+Em nenhuma circuntância deve ser enviada por correio electrónico ou através de rede. 
+Levar a USB para casa minha casa. 
+Transferir o ficheiro filho_rsa da USB para ~/.ssh. 
+Tentar entrar na conta filho no meu computador da minha mãe a partir do meu computador, usando a chave privada:
+
+Ainda no computador da minha mãe:
+
+# Criar um palavra-passe para o programa VNC
+
+$ vncpasswd
+
+Agora, na minha conta, no meu computador:
+
+$ mv /media/pendrive/filho_rsa ~/.ssh/ && chmod 0400 ~/.ssh/filho_rsa
+
+
+Estabelecer ligação entre os dois computadores através de túnel directo SSH:
+
+
+No computador da minha mãe, na minha conta: 
+
+
+Arch 
+-----
+
+$ sudo systemctl start sshd.service
+
+
+Talvez seja precise executar este comando:
+$ sudo systemctl start sshd.socket
+
+$ x0vncserver -display :0 -passwordfile ~/.vnc/passwd
+
+Verificar se a porta xx.xxx está aberta.
+
+
+No meu computador:
+
+$ ssh -vv -i ~/.ssh/filho-arch_rsa -p xx.xxx filho@ipmãe
+
+$ ssh -vv -L 55900:localhost:5900 -i ~/.ssh/filho-arch_rsa -p xx.xxx jribeiro@ipmãe
+
+$ vncviewer -x11cursor 127.0.0.1:55900
+
+Ainda no computador da minha mãe:
+
+$ sudo nano /etc/ssh/sshd_config
+
+Port 22
+PermitRootLogin no
+AuthorizedKeysFile      .ssh/authorized_keys
+PasswordAuthentication no
+PermitEmptyPasswords no
+Subsystem       sftp    /usr/libexec/sftp-server
+
