@@ -44,7 +44,7 @@ No meu computador:
 Acesso exclusivo ao terminal:
 $ ssh -vv -i ~/.ssh/filho -p XXXXX filho@ip_público_da_mãe
 
-No computador da minha mãe:
+Para acesso gráfico; no computador da minha mãe:
 
 # Criar um palavra-passe para o programa VNC
 
