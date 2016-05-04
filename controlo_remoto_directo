@@ -28,7 +28,13 @@ $ su - filho
 
 $ ssh-keygen -t rsa -b 4096
 
-$ mkdir ~/.ssh && cat filho_rsa.pub >> ~/.ssh/authorized_keys && chmod 0600 ~/.ssh/authorized_keys
+$ sudo mkdir /etc/ssh/$USER 
+$ sudo chmod 755 /etc/ssh/$USER 
+$ sudo chown $USER:$USER /etc/ssh/$USER
+$ sudo cat filho_rsa.pub >> /etc/ssh/$USER/authorized_keys
+$ sudo chmod 644 /etc/ssh/$USER/authorized_keys
+sudo chown $USER:$USER /etc/ssh/$USER/authorized_keys
+
 
 Transferir a chave privada do meu utilizador para uma USB. Não deixá-la no computador da minha mãe. 
 Em nenhuma circuntância deve ser enviada por correio electrónico ou através de rede. 
