@@ -82,10 +82,24 @@ PasswordAuthentication no
 PermitEmptyPasswords no 
 Subsystem       sftp    /usr/libexec/sftp-server
 
+Aqui, fica um método que dispensa a intervenção da mãe para lançar o servidor gráfico
+=====================================================================================
+
 Comando que inicia a comunicação SSH com o computador da minha mãe e lança o servidor gráfico x11vnc:
+Nota: Tudo, é feito a partir do meu computador
+
+Hipótese 1
+==========
+
 $ ssh -t -L 55900:localhost:5900 -i ~/.ssh/filho_rsa -p XXXXX filho@ip_público_mãe 'sudo x11vnc -display :0 -auth /home/mãe/.Xauthority -rfbauth ~/.x11vnc/passwd'
-$ vncviewer -x11cursor 127.0.0.1:55900
 
 Visualizar:
+$ vncviewer -x11cursor 127.0.0.1:55900
+
+Hipótese 2
+==========
+
 $ ssh -t -L 5900:localhost:5900 -i ~/.ssh/filho_rsa -p XXXXX filho@ip_público_mãe 'sudo x11vnc -display :0 -auth /home/mãe/.Xauthority -rfbauth ~/.x11vnc/passwd'
+
+Visualizar:
 $ vncviewer -encodings "copyrect tight zrle hextile" localhost:0
