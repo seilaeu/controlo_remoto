@@ -35,12 +35,9 @@ $ sudo cat filho_rsa.pub >> /etc/ssh/$USER/authorized_keys
 $ sudo chmod 644 /etc/ssh/$USER/authorized_keys
 sudo chown $USER:$USER /etc/ssh/$USER/authorized_keys
 
-
+Apagar a chave pública.
 Transferir a chave privada do meu utilizador para uma USB. Não deixá-la no computador da minha mãe. 
 Em nenhuma circuntância deve ser enviada por correio electrónico ou através de rede. 
-
-
-Tentar entrar na conta filho no meu computador da minha mãe a partir do meu computador, usando a chave privada:
 
 No computador da minha mãe:
 
@@ -51,9 +48,6 @@ $ vncpasswd
 Agora, na minha conta, no meu computador:
 
 $ mv /media/pendrive/filho_rsa ~/.ssh/ && chmod 0400 ~/.ssh/filho_rsa
-
-
-Estabelecer ligação entre os dois computadores através de túnel directo SSH:
 
 
 No computador da minha mãe: 
@@ -71,23 +65,20 @@ $ x0vncserver -display :0 -passwordfile ~/.vnc/passwd
 
 Verificar se a porta xx.xxx está aberta.
 
-
 No meu computador:
-
-$ ssh -vv -i ~/.ssh/filho-arch_rsa -p xx.xxx filho@ip_público_da_mãe
 
 $ ssh -vv -L 55900:localhost:5900 -i ~/.ssh/filho-arch_rsa -p xx.xxx jribeiro@ipmãe
 
 $ vncviewer -x11cursor 127.0.0.1:55900
 
-Ainda no computador da minha mãe:
+Após a 1ª entrada, vamos aumentar a segurança da comunicação, no computador da minha mãe:
 
 $ sudo nano /etc/ssh/sshd_config
 
 Port 22
 PermitRootLogin no
-AuthorizedKeysFile      .ssh/authorized_keys
-PasswordAuthentication no
-PermitEmptyPasswords no
+AuthorizedKeysFile      /etc/ssh/%u/authorized_keys 
+PasswordAuthentication no 
+PermitEmptyPasswords no 
 Subsystem       sftp    /usr/libexec/sftp-server
 
