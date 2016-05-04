@@ -39,6 +39,11 @@ Apagar a chave pública.
 Transferir a chave privada do meu utilizador para uma USB. Não deixá-la no computador da minha mãe. 
 Em nenhuma circuntância deve ser enviada por correio electrónico ou através de rede. 
 
+No meu computador:
+
+Acesso exclusivo ao terminal:
+$ ssh -vv -i ~/.ssh/filho -p XXXXX filho@ip_público_da_mãe
+
 No computador da minha mãe:
 
 # Criar um palavra-passe para o programa VNC
