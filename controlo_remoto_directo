@@ -82,3 +82,5 @@ PasswordAuthentication no
 PermitEmptyPasswords no 
 Subsystem       sftp    /usr/libexec/sftp-server
 
+Comando que inicia a comunicação SSH com o computador da minha mãe e lança o servidor gráfico x11vnc:
+$ ssh -t -L 55900:localhost:5900 -i ~/.ssh/filho_rsa -p XXXXX filho@ip_público_mãe 'sudo x11vnc -display :0 -auth /home/mãe/.Xauthority -rfbauth ~/.x11vnc/passwd'
