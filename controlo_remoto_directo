@@ -96,7 +96,7 @@ Nota: Tudo, é feito a partir do meu computador
 Hipótese 1
 ==========
 
-$ ssh -t -L 55900:localhost:5900 -i ~/.ssh/filho_rsa -p XXXXX filho@ip_público_mãe 'sudo x11vnc -display :0 -auth /home/mãe/.Xauthority -rfbauth ~/.x11vnc/passwd'
+$ ssh -t -L 55900:localhost:5900 -i ~/.ssh/filho_rsa -p XXXXX filho@ip_público_mãe 'sudo x11vnc -display :0 -auth /home/mãe/.Xauthority -rfbauth /home/mãe/.x11vnc/passwd'
 
 Visualizar:
 $ vncviewer -x11cursor 127.0.0.1:55900
@@ -104,7 +104,7 @@ $ vncviewer -x11cursor 127.0.0.1:55900
 Hipótese 2
 ==========
 
-$ ssh -t -L 5900:localhost:5900 -i ~/.ssh/filho_rsa -p XXXXX filho@ip_público_mãe 'sudo x11vnc -display :0 -auth /home/mãe/.Xauthority -rfbauth ~/.x11vnc/passwd'
+$ ssh -t -L 5900:localhost:5900 -i ~/.ssh/filho_rsa -p XXXXX filho@ip_público_mãe 'sudo x11vnc -display :0 -auth /home/mãe/.Xauthority -rfbauth /home/mãe/.x11vnc/passwd'
 
 Visualizar:
 $ vncviewer -encodings "copyrect tight zrle hextile" localhost:0
